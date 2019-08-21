@@ -51,6 +51,12 @@ var app = {
       var linearAccelerometer = window.linearAccelerometer
       linearAccelerometer.updateAcceleration(eventData.x, eventData.y, eventData.z)
     }, false)
+    document.addEventListener('onActivityDetection', function (eventData) {
+      console.log('onActivityDetection')
+
+      var activityDetection = window.activityDetection
+      activityDetection.updateActivityData(eventData)
+    })
   },
 
   // deviceready Event Handler
