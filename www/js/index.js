@@ -57,6 +57,12 @@ var app = {
       var activityDetection = window.activityDetection
       activityDetection.updateActivityData(eventData)
     })
+    document.addEventListener('onActivityQueryCompleted', function (eventData) {
+      console.log('onActivityQueryCompleted')
+
+      var activityDetection = window.activityDetection
+      activityDetection.displayActivityLog(eventData)
+    })
   },
 
   // deviceready Event Handler
