@@ -19,14 +19,33 @@ ActivityDetection.prototype.buttonClickHandler = function (event) {
   event.preventDefault()
 
   if (!self.enabled) {
-    motionPlugin.startActivityDetectionCapture(function (pluginResponse) {
+    // Enable return of GPS location coordinates within the event
+    motionPlugin.setActivityDetectionEventsWithLocation(
+      true,
+      function (pluginResponse) {
+        console.log(pluginResponse)
+
+        // Start capture
+        motionPlugin.startActivityDetectionCapture(function (pluginResponse) {
+          console.log(pluginResponse)
+          self.enabled = true
+          self.displayStatus()
+          self.setButtonText()
+        }, function (error) {
+          console.log(error)
+        })
+      }, function (error) {
+        console.log(error)
+      })
+
+    /* motionPlugin.startActivityDetectionCapture(function (pluginResponse) {
       console.log(pluginResponse)
       self.enabled = true
       self.displayStatus()
       self.setButtonText()
     }, function (error) {
       console.log(error)
-    })
+    }) */
   } else {
     motionPlugin.stopActivityDetectionCapture(function (pluginResponse) {
       console.log(pluginResponse)
@@ -85,6 +104,10 @@ ActivityDetection.prototype.updateActivityData = function (data) {
 
   if (data.hasOwnProperty('confidence')) {
     p.innerHTML += ' with confidence: ' + data.confidence
+  }
+
+  if (data.hasOwnProperty('latitude') && data.hasOwnProperty('longitude')) {
+    p.innerHTML += ' . Lat: ' + data.latitude + ' Long: ' + data.longitude
   }
 
   this.dataDiv.appendChild(p)
